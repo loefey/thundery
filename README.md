@@ -10,10 +10,6 @@ Thundery's idea, structure and design is based off [Rainy](https://github.com/li
 
 ## Installation
 
-### Package managers:
-
-Currently, on none. But I'm trying to add it to some!
-
 ### From source:
 
 1. Clone the repository:
@@ -27,6 +23,10 @@ Currently, on none. But I'm trying to add it to some!
    ```sh
    cargo build --release
    ```
+
+### Package managers:
+
+Currently, on none. But I'm trying to add it to some!
 
 ## Configuration
 
