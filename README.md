@@ -23,6 +23,7 @@ Thundery's idea, structure and design is based off [Rainy](https://github.com/li
    ```sh
    cargo build --release
    ```
+**I suggest running** `cargo install --path .` **to install thundery instead of just building it**
 
 ### Package managers:
 
