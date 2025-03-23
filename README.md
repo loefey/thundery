@@ -26,7 +26,10 @@ Thundery's idea, structure and design is based off [Rainy](https://github.com/li
 
 ### Package managers:
 
-Currently, on none. But I'm trying to add it to some!
+**AUR**:
+Thundery is on the AUR! You can now use your favourite AUR helper to download Thundery.
+
+https://aur.archlinux.org/packages/thundery
 
 ## Configuration
 
