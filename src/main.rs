@@ -196,7 +196,7 @@ fn main() {
         let output = match weather {
             "Clear" =>
                 format!(
-                    r#"                    {}
+    r#"             {}
    \   /     {}
     .-.      {}
  ‒ (   ) ‒   {}
@@ -240,7 +240,7 @@ fn main() {
                 ),
             "Clouds" =>
                 format!(
-                    r#"                      {}
+    r#"               {}
      .--.      {}
   .-(    ).    {}
  (___.__)__)   {}
@@ -272,19 +272,19 @@ fn main() {
                         format!("Sunset: {sunsetstring}")
                     },
                     if config.use_colors {
-                        date_label.white().to_string()
+                        date_label.cyan().to_string()
                     } else {
                         date_label.to_string()
                     },
                     if config.use_colors {
-                        date_value.white().to_string()
+                        date_value.cyan().to_string()
                     } else {
                         date_value.to_string()
                     }
                 ),
             "Rain" =>
                 format!(
-                    r#"                      {}
+    r#"               {}
      .--.      {}
   .-(    ).    {}
  (___.__)__)   {}
@@ -328,13 +328,13 @@ fn main() {
                 ),
             "Snow" =>
                 format!(
-                    r#"                      {}
+    r#"               {}
      .--.      {}
   .-(    ).    {}
  (___.__)__)   {}
    * * * *     {}
   * * * *      {}
-              {}{}"#,
+               {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -372,7 +372,7 @@ fn main() {
                 ),
             "Thunderstorm" =>
                 format!(
-                    r#"                      {}
+    r#"               {}
      .--.      {}
   .-(    ).    {}
  (___.__)__)   {}
@@ -416,7 +416,7 @@ fn main() {
                 ),
             _ =>
                 format!(
-                    r#"                      {}
+    r#"               {}
      .--.      {}
   .-(    ).    {}
  (___.__)__)   {}
