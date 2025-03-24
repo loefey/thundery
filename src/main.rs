@@ -68,13 +68,9 @@ fn read_config() -> Config {
     }
 
     let config_content = fs::read_to_string(&config_path).expect("Failed to read config file");
-
-    // First try to parse the complete config
     if let Ok(config) = toml::from_str::<Config>(&config_content) {
         return config;
     }
-
-    // If parsing fails, load the partial config and merge with defaults
     let mut default_config = Config::default();
     if let Ok(partial_config) = toml::from_str::<toml::Value>(&config_content) {
         if let Some(table) = partial_config.as_table() {
