@@ -52,7 +52,7 @@ Example configuration:
 
 ```toml
 api_key = "your_api_key"
-city = "London"
+city = "London, GB"
 units = "metric"
 timeplus = 0
 timeminus = 0
