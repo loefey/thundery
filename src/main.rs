@@ -130,7 +130,7 @@ fn main() {
         let date_value = if config.showdate { date } else { String::new() };
 
         let output = match weather {
-            "Clouds" => format!(
+            "Clear" => format!(
                 r#"                    {}
           \   /     {}
            .-.      {}
@@ -151,7 +151,7 @@ fn main() {
                 date_label.white().to_string(),
                 date_value.white().to_string()
             ),
-            "Cloud" => format!(
+            "Clouds" => format!(
                 r#"                      {}
             .--.      {}
          .-(    ).    {}
