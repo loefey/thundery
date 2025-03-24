@@ -162,7 +162,7 @@ fn main() {
         };
 
         let wind_speed_str = if config.use_colors {
-            format!("Wind speed: {:.1} {}", wind_speed, windspeedunits).green().to_string()
+            format!("Wind speed: {:.1} {}", wind_speed, windspeedunits).cyan().to_string()
         } else {
             format!("Wind speed: {:.1} {}", wind_speed, windspeedunits)
         };
