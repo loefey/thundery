@@ -46,6 +46,7 @@ The application uses a configuration file located at `~/.config/thundery/thunder
 - `showcityname`: Whether to display the city name (`true` or `false`).
 - `showdate`: Whether to display the current date (`true` or `false`).
 - `timeformat`: Time format for sunrise and sunset times (`24` or `12`).
+- `use_colors`: Enables and disabled text colors (`true` or `false`).
 
 Example configuration:
 
@@ -58,4 +59,5 @@ timeminus = 0
 showcityname = true
 showdate = true
 timeformat = "24"
+use_colors = false
 ```
