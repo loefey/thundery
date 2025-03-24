@@ -196,13 +196,13 @@ fn main() {
         let output = match weather {
             "Clear" =>
                 format!(
-                    r#"              {}
-                    \   /     {}
-                     .-.      {}
-                  ‒ (   ) ‒   {}
-                     ʻ-ʻ      {}
-                    /   \     {}
-                              {}{}"#,
+                    r#"                    {}
+   \   /     {}
+    .-.      {}
+ ‒ (   ) ‒   {}
+    ʻ-ʻ      {}
+   /   \     {}
+             {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -240,13 +240,13 @@ fn main() {
                 ),
             "Clouds" =>
                 format!(
-                    r#"                {}
-                    .--.      {}
-                 .-(    ).    {}
-                (___.__)__)   {}
-                              {}
-                              {}
-                              {}{}"#,
+                    r#"                      {}
+     .--.      {}
+  .-(    ).    {}
+ (___.__)__)   {}
+               {}
+               {}
+               {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -284,13 +284,13 @@ fn main() {
                 ),
             "Rain" =>
                 format!(
-                    r#"                {}
-                    .--.      {}
-                 .-(    ).    {}
-                (___.__)__)   {}
-                 ʻ‚ʻ‚ʻ‚ʻ‚ʻ    {}
-                              {}
-                              {}{}"#,
+                    r#"                      {}
+     .--.      {}
+  .-(    ).    {}
+ (___.__)__)   {}
+  ʻ‚ʻ‚ʻ‚ʻ‚ʻ    {}
+               {}
+               {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -328,13 +328,13 @@ fn main() {
                 ),
             "Snow" =>
                 format!(
-                    r#"                {}
-                    .--.      {}
-                 .-(    ).    {}
-                (___.__)__)   {}
-                  * * * *     {}
-                 * * * *      {}
-                              {}{}"#,
+                    r#"                      {}
+     .--.      {}
+  .-(    ).    {}
+ (___.__)__)   {}
+   * * * *     {}
+  * * * *      {}
+              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -372,13 +372,13 @@ fn main() {
                 ),
             "Thunderstorm" =>
                 format!(
-                    r#"                {}
-                    .--.      {}
-                 .-(    ).    {}
-                (___.__)__)   {}
-                   /_  /_     {}
-                    /  /      {}
-                              {}{}"#,
+                    r#"                      {}
+     .--.      {}
+  .-(    ).    {}
+ (___.__)__)   {}
+    /_  /_     {}
+     /  /      {}
+               {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -416,13 +416,13 @@ fn main() {
                 ),
             _ =>
                 format!(
-                    r#"                {}
-                    .--.      {}
-                 .-(    ).    {}
-                (___.__)__)   {}
-                              {}
-                              {}
-                              {}{}"#,
+                    r#"                      {}
+     .--.      {}
+  .-(    ).    {}
+ (___.__)__)   {}
+               {}
+               {}
+               {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -462,7 +462,7 @@ fn main() {
         println!("{}", output);
     } else {
         eprintln!(
-            "Failed to fetch weather data: your api key and city are probably missing from the config file."
+            "Failed to fetch weather data: Your API key and/or city name are missing from the config file, if they aren't missing, check the spelling of your city here https://openweathermap.org/"
         );
     }
 }
