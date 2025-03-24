@@ -160,7 +160,7 @@ fn main() {
                         format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind speed: {wind_speed_str}").green().to_string()
+                        format!("Wind speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind speed: {wind_speed_str}")
                     },
@@ -207,12 +207,12 @@ fn main() {
                         "Weather: cloudy".to_string()
                     },
                     if config.use_colors {
-                        format!("Temperature {temp_str}").red().to_string()
+                        format!("Temperature: {temp_str}").red().to_string()
                     } else {
-                        format!("Temperature {temp_str}")
+                        format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind Speed: {wind_speed_str}")
                     },
@@ -259,12 +259,12 @@ fn main() {
                         "Weather: rainy".to_string()
                     },
                     if config.use_colors {
-                        format!("Temperature {temp_str}").red().to_string()
+                        format!("Temperature: {temp_str}").red().to_string()
                     } else {
-                        format!("Temperature {temp_str}")
+                        format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind Speed: {wind_speed_str}")
                     },
@@ -311,12 +311,12 @@ fn main() {
                         "Weather: snowy".to_string()
                     },
                     if config.use_colors {
-                        format!("Temperature {temp_str}").white().to_string()
+                        format!("Temperature: {temp_str}").white().to_string()
                     } else {
-                        format!("Temperature {temp_str}")
+                        format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind Speed: {wind_speed_str}")
                     },
@@ -358,17 +358,17 @@ fn main() {
                         String::new()
                     },
                     if config.use_colors {
-                        "Weather: thundery".bold().yellow().to_string()
+                        "Weather: thundery".bold().black().to_string()
                     } else {
                         "Weather: thundery".to_string()
                     },
                     if config.use_colors {
-                        format!("Temperature {temp_str}").red().to_string()
+                        format!("Temperature: {temp_str}").red().to_string()
                     } else {
-                        format!("Temperature {temp_str}")
+                        format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind Speed: {wind_speed_str}")
                     },
@@ -415,12 +415,12 @@ fn main() {
                         format!("Weather: {weather}")
                     },
                     if config.use_colors {
-                        format!("Temperature {temp_str}").red().to_string()
+                        format!("Temperature: {temp_str}").red().to_string()
                     } else {
-                        format!("Temperature {temp_str}")
+                        format!("Temperature: {temp_str}")
                     },
                     if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
                     } else {
                         format!("Wind Speed: {wind_speed_str}")
                     },
