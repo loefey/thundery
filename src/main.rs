@@ -64,10 +64,62 @@ fn read_config() -> Config {
 
         let config_location = config_path.display().to_string();
         println!("No config detected, config made at {}.", config_location);
+        return default_config;
     }
 
-    let config_content = fs::read_to_string(config_path).expect("Failed to read config file");
-    toml::from_str(&config_content).expect("Failed to parse config file")
+    let config_content = fs::read_to_string(&config_path).expect("Failed to read config file");
+
+    // First try to parse the complete config
+    if let Ok(config) = toml::from_str::<Config>(&config_content) {
+        return config;
+    }
+
+    // If parsing fails, load the partial config and merge with defaults
+    let mut default_config = Config::default();
+    if let Ok(partial_config) = toml::from_str::<toml::Value>(&config_content) {
+        if let Some(table) = partial_config.as_table() {
+            for (key, value) in table {
+                match key.as_str() {
+                    "api_key" => if let Some(s) = value.as_str() {
+                        default_config.api_key = s.to_string();
+                    }
+                    "city" => if let Some(s) = value.as_str() {
+                        default_config.city = s.to_string();
+                    }
+                    "units" => if let Some(s) = value.as_str() {
+                        default_config.units = s.to_string();
+                    }
+                    "timeplus" => if let Some(i) = value.as_integer() {
+                        default_config.timeplus = i;
+                    }
+                    "timeminus" => if let Some(i) = value.as_integer() {
+                        default_config.timeminus = i;
+                    }
+                    "showcityname" => if let Some(b) = value.as_bool() {
+                        default_config.showcityname = b;
+                    }
+                    "showdate" => if let Some(b) = value.as_bool() {
+                        default_config.showdate = b;
+                    }
+                    "timeformat" => if let Some(s) = value.as_str() {
+                        default_config.timeformat = s.to_string();
+                    }
+                    "use_colors" => if let Some(b) = value.as_bool() {
+                        default_config.use_colors = b;
+                    }
+                    _ => (),
+                }
+            }
+        }
+
+        let toml_string = toml
+            ::to_string(&default_config)
+            .expect("Failed to serialize merged config");
+        let mut file = File::create(&config_path).expect("Failed to create config file");
+        file.write_all(toml_string.as_bytes()).expect("Failed to write merged config to file");
+    }
+
+    default_config
 }
 
 fn main() {
@@ -103,8 +155,17 @@ fn main() {
             _ => "K",
         };
 
-        let temp_str = format!("{:.1}{}", temp, temp_unit);
-        let wind_speed_str = format!("{:.1} {}", wind_speed, windspeedunits);
+        let temp_str = if config.use_colors {
+            format!("Temperature: {:.1}{}", temp, temp_unit).red().to_string()
+        } else {
+            format!("Temperature: {:.1}{}", temp, temp_unit)
+        };
+
+        let wind_speed_str = if config.use_colors {
+            format!("Wind speed: {:.1} {}", wind_speed, windspeedunits).green().to_string()
+        } else {
+            format!("Wind speed: {:.1} {}", wind_speed, windspeedunits)
+        };
 
         let sunrise_datetime: DateTime<Utc> = Utc.timestamp_opt(sunrise, 0).unwrap();
         let sunset_datetime: DateTime<Utc> = Utc.timestamp_opt(sunset, 0).unwrap();
@@ -154,16 +215,8 @@ fn main() {
                     } else {
                         "Weather: clear".to_string()
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").red().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
@@ -206,16 +259,8 @@ fn main() {
                     } else {
                         "Weather: cloudy".to_string()
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").red().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind Speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
@@ -258,16 +303,8 @@ fn main() {
                     } else {
                         "Weather: rainy".to_string()
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").red().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind Speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
@@ -310,16 +347,8 @@ fn main() {
                     } else {
                         "Weather: snowy".to_string()
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").white().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind Speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
@@ -362,16 +391,8 @@ fn main() {
                     } else {
                         "Weather: thundery".to_string()
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").red().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind Speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
@@ -414,16 +435,8 @@ fn main() {
                     } else {
                         format!("Weather: {weather}")
                     },
-                    if config.use_colors {
-                        format!("Temperature: {temp_str}").red().to_string()
-                    } else {
-                        format!("Temperature: {temp_str}")
-                    },
-                    if config.use_colors {
-                        format!("Wind Speed: {wind_speed_str}").cyan().to_string()
-                    } else {
-                        format!("Wind Speed: {wind_speed_str}")
-                    },
+                    temp_str,
+                    wind_speed_str,
                     if config.use_colors {
                         format!("Sunrise: {sunrisestring}").yellow().to_string()
                     } else {
