@@ -1,9 +1,10 @@
+use chrono::{ DateTime, Duration, TimeZone, Utc };
+use colored::Colorize;
+use dirs::home_dir;
 use reqwest::blocking::get;
 use serde::{ Deserialize, Serialize };
 use serde_json::Value;
-use chrono::{ DateTime, Utc, TimeZone, Duration };
 use std::fs;
-use dirs::home_dir;
 use std::fs::File;
 use std::io::Write;
 
@@ -17,6 +18,7 @@ struct Config {
     showcityname: bool,
     showdate: bool,
     timeformat: String,
+    use_colors: bool,
 }
 
 impl Default for Config {
@@ -30,6 +32,7 @@ impl Default for Config {
             showcityname: false,
             showdate: false,
             timeformat: String::from("24"),
+            use_colors: false,
         }
     }
 }
@@ -132,133 +135,317 @@ fn main() {
         let output = match weather {
             "Clear" =>
                 format!(
-                    r#"               {}
-     \   /     Weather: clear
-      .-.      Temperature: {}
-   ‒ (   ) ‒   Wind speed: {}
-      `-᾿      Sunrise: {}
-     /   \     Sunset: {}
-               {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                    {}
+          \   /     {}
+           .-.      {}
+        ‒ (   ) ‒   {}
+           ʻ-ʻ      {}
+          /   \     {}
+                    {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        "Weather: clear".yellow().bold().to_string()
+                    } else {
+                        "Weather: clear".to_string()
+                    },
+                    if config.use_colors {
+                        format!("Temperature: {temp_str}").red().to_string()
+                    } else {
+                        format!("Temperature: {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
             "Clouds" =>
                 format!(
-                    r#"                 {}
-       .--.      Weather: cloudy
-    .-(    ).    Temperature: {}
-   (___.__)__)   Wind speed: {}
-                 Sunrise: {}
-                 Sunset: {}
-                 {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                      {}
+            .--.      {}
+         .-(    ).    {}
+        (___.__)__)   {}
+                      {}
+                      {}
+                      {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        "Weather: cloudy".bold().magenta().to_string()
+                    } else {
+                        "Weather: cloudy".to_string()
+                    },
+                    if config.use_colors {
+                        format!("Temperature {temp_str}").red().to_string()
+                    } else {
+                        format!("Temperature {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind Speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
             "Rain" =>
                 format!(
-                    r#"                 {}
-       .--.      Weather: rainy
-    .-(    ).    Temperature: {}
-   (___.__)__)   Wind speed: {}
-    ʻ‚ʻ‚ʻ‚ʻ‚ʻ    Sunrise: {}
-                 Sunset: {}
-                 {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                      {}
+            .--.      {}
+         .-(    ).    {}
+        (___.__)__)   {}
+         ʻ‚ʻ‚ʻ‚ʻ‚ʻ    {}
+                      {}
+                      {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        "Weather: rainy".bold().blue().to_string()
+                    } else {
+                        "Weather: rainy".to_string()
+                    },
+                    if config.use_colors {
+                        format!("Temperature {temp_str}").red().to_string()
+                    } else {
+                        format!("Temperature {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind Speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
             "Snow" =>
                 format!(
-                    r#"                 {}
-       .--.      Weather: snowy
-    .-(    ).    Temperature: {}
-   (___.__)__)   Wind speed: {}
-    * * * * *    Sunrise: {}
-                 Sunset: {}
-                 {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                      {}
+            .--.      {}
+         .-(    ).    {}
+        (___.__)__)   {}
+          * * * *     {}
+         * * * *      {}
+                      {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        "Weather: snowy".bold().magenta().to_string()
+                    } else {
+                        "Weather: snowy".to_string()
+                    },
+                    if config.use_colors {
+                        format!("Temperature {temp_str}").white().to_string()
+                    } else {
+                        format!("Temperature {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind Speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
             "Thunderstorm" =>
                 format!(
-                    r#"                 {}
-       .--.      Weather: stormy
-    .-(    ).    Temperature: {}
-   (___.__)__)   Wind speed: {}
-        /_       Sunrise: {}
-         /       Sunset: {}
-                 {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                      {}
+            .--.      {}
+         .-(    ).    {}
+        (___.__)__)   {}
+           /_  /_     {}
+            /  /      {}
+                      {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        "Weather: thundery".bold().yellow().to_string()
+                    } else {
+                        "Weather: thundery".to_string()
+                    },
+                    if config.use_colors {
+                        format!("Temperature {temp_str}").red().to_string()
+                    } else {
+                        format!("Temperature {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind Speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
             _ =>
                 format!(
-                    r#"                 {}
-       .--.      Weather: {}
-    .-(    ).    Temperature: {}
-   (___.__)__)   Wind speed: {}
-                 Sunrise: {}
-                 Sunset: {}
-                 {}{}"#,
-                    if config.showcityname {
-                        format!("City: {}", config.city)
+                    r#"                      {}
+            .--.      {}
+         .-(    ).    {}
+        (___.__)__)   {}
+                      {}
+                      {}
+                      {}{}"#,
+                    if config.use_colors && config.showcityname {
+                        format!("City: {}", config.city).bold().green().to_string()
+                    } else if config.showcityname {
+                        format!("City: {}", config.city).to_string()
                     } else {
                         String::new()
                     },
-                    weather,
-                    temp_str,
-                    wind_speed_str,
-                    sunrisestring,
-                    sunsetstring,
-                    date_label,
-                    date_value
+                    if config.use_colors {
+                        format!("Weather: {weather}").bold().red().to_string()
+                    } else {
+                        format!("Weather: {weather}")
+                    },
+                    if config.use_colors {
+                        format!("Temperature {temp_str}").red().to_string()
+                    } else {
+                        format!("Temperature {temp_str}")
+                    },
+                    if config.use_colors {
+                        format!("Wind Speed: {wind_speed_str}").green().to_string()
+                    } else {
+                        format!("Wind Speed: {wind_speed_str}")
+                    },
+                    if config.use_colors {
+                        format!("Sunrise: {sunrisestring}").yellow().to_string()
+                    } else {
+                        format!("Sunrise: {sunrisestring}")
+                    },
+                    if config.use_colors {
+                        format!("Sunset: {sunsetstring}").blue().to_string()
+                    } else {
+                        format!("Sunset: {sunsetstring}")
+                    },
+                    if config.use_colors {
+                        date_label.white().to_string()
+                    } else {
+                        date_label.to_string()
+                    },
+                    if config.use_colors {
+                        date_value.white().to_string()
+                    } else {
+                        date_value.to_string()
+                    }
                 ),
         };
-
         println!("{}", output);
     } else {
         eprintln!(
