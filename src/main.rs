@@ -462,7 +462,7 @@ fn main() {
         println!("{}", output);
     } else {
         eprintln!(
-            "Failed to fetch weather data: Your API key and/or city name are missing from the config file, if they aren't missing, check the spelling of your city here https://openweathermap.org/"
+            "Failed to fetch weather data: your api key and city are probably missing from the config file."
         );
     }
 }
