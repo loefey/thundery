@@ -68,9 +68,13 @@ fn read_config() -> Config {
     }
 
     let config_content = fs::read_to_string(&config_path).expect("Failed to read config file");
+
+    // First try to parse the complete config
     if let Ok(config) = toml::from_str::<Config>(&config_content) {
         return config;
     }
+
+    // If parsing fails, load the partial config and merge with defaults
     let mut default_config = Config::default();
     if let Ok(partial_config) = toml::from_str::<toml::Value>(&config_content) {
         if let Some(table) = partial_config.as_table() {
@@ -192,13 +196,13 @@ fn main() {
         let output = match weather {
             "Clear" =>
                 format!(
-                    r#"                    {}
-          \   /     {}
-           .-.      {}
-        ‒ (   ) ‒   {}
-           ʻ-ʻ      {}
-          /   \     {}
-                    {}{}"#,
+                    r#"              {}
+                    \   /     {}
+                     .-.      {}
+                  ‒ (   ) ‒   {}
+                     ʻ-ʻ      {}
+                    /   \     {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -236,13 +240,13 @@ fn main() {
                 ),
             "Clouds" =>
                 format!(
-                    r#"                      {}
-            .--.      {}
-         .-(    ).    {}
-        (___.__)__)   {}
-                      {}
-                      {}
-                      {}{}"#,
+                    r#"                {}
+                    .--.      {}
+                 .-(    ).    {}
+                (___.__)__)   {}
+                              {}
+                              {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -280,13 +284,13 @@ fn main() {
                 ),
             "Rain" =>
                 format!(
-                    r#"                      {}
-            .--.      {}
-         .-(    ).    {}
-        (___.__)__)   {}
-         ʻ‚ʻ‚ʻ‚ʻ‚ʻ    {}
-                      {}
-                      {}{}"#,
+                    r#"                {}
+                    .--.      {}
+                 .-(    ).    {}
+                (___.__)__)   {}
+                 ʻ‚ʻ‚ʻ‚ʻ‚ʻ    {}
+                              {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -324,13 +328,13 @@ fn main() {
                 ),
             "Snow" =>
                 format!(
-                    r#"                      {}
-            .--.      {}
-         .-(    ).    {}
-        (___.__)__)   {}
-          * * * *     {}
-         * * * *      {}
-                      {}{}"#,
+                    r#"                {}
+                    .--.      {}
+                 .-(    ).    {}
+                (___.__)__)   {}
+                  * * * *     {}
+                 * * * *      {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -368,13 +372,13 @@ fn main() {
                 ),
             "Thunderstorm" =>
                 format!(
-                    r#"                      {}
-            .--.      {}
-         .-(    ).    {}
-        (___.__)__)   {}
-           /_  /_     {}
-            /  /      {}
-                      {}{}"#,
+                    r#"                {}
+                    .--.      {}
+                 .-(    ).    {}
+                (___.__)__)   {}
+                   /_  /_     {}
+                    /  /      {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
@@ -412,13 +416,13 @@ fn main() {
                 ),
             _ =>
                 format!(
-                    r#"                      {}
-            .--.      {}
-         .-(    ).    {}
-        (___.__)__)   {}
-                      {}
-                      {}
-                      {}{}"#,
+                    r#"                {}
+                    .--.      {}
+                 .-(    ).    {}
+                (___.__)__)   {}
+                              {}
+                              {}
+                              {}{}"#,
                     if config.use_colors && config.showcityname {
                         format!("City: {}", config.city).bold().green().to_string()
                     } else if config.showcityname {
