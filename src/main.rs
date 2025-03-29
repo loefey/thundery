@@ -125,14 +125,20 @@ fn read_config() -> Config {
 fn main() {
     let config = read_config();
 
-    let url = format!(
-        "https://api.openweathermap.org/data/2.5/weather?q={}&units={}&APPID={}",
-        config.city,
-        config.units,
-        config.api_key
-    );
+    use reqwest::Url;
 
-    let response = get(&url).expect("Failed to send request");
+    let base_url = "https://api.openweathermap.org/data/2.5/weather";
+    let url = Url::parse_with_params(
+        base_url,
+        &[
+            ("q", &config.city),
+            ("units", &config.units),
+            ("APPID", &config.api_key),
+        ],
+    )
+    .expect("Invalid URL");
+
+    let response = get(url).expect("Failed to send request");
 
     if response.status().is_success() {
         let weather_data: Value = response.json().expect("Failed to parse JSON");
