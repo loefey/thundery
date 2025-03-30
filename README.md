@@ -41,8 +41,8 @@ The application uses a configuration file located at `~/.config/thundery/thunder
 - `api_key`: Your OpenWeatherMap API key.
 - `city`: The city for which to fetch weather data.
 - `units`: Units for temperature and wind speed (`metric` or `imperial`).
-- `timeplus`: Hours to add to sunrise and sunset times.
-- `timeminus`: Hours to subtract from sunrise and sunset times.
+- `timeplus`: Hours to add to the UTC timezone, you can find your timezone here https://www.timeanddate.com/.
+- `timeminus`: Hours to subtract from the UTC timezone, you can find your timezone here https://www.timeanddate.com/.
 - `showcityname`: Whether to display the city name (`true` or `false`).
 - `showdate`: Whether to display the current date (`true` or `false`).
 - `timeformat`: Time format for sunrise and sunset times (`24` or `12`).
